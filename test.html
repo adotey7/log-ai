@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Logger Test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+    button { padding: 12px 24px; margin: 8px; font-size: 16px; cursor: pointer; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>AI Logger SDK Test</h1>
+  <p>Open your browser console to see SDK activity.</p>
+
+  <div>
+    <button onclick="triggerError()">Trigger Uncaught Error</button>
+    <button onclick="triggerPromiseError()">Trigger Unhandled Rejection</button>
+    <button onclick="manualLog()">Manual Log</button>
+  </div>
+
+  <div id="status"></div>
+
+  <script type="module">
+    import { AiLogger } from '../packages/sdk/dist/index.js';
+
+    AiLogger.init({
+      endpoint: 'http://localhost:3001/logs',
+      autoCapture: true,
+    });
+
+    window.triggerError = () => {
+      throw new Error('This is a test uncaught error from the SDK test page');
+    };
+
+    window.triggerPromiseError = () => {
+      Promise.reject(new Error('This is a test unhandled promise rejection'));
+    };
+
+    window.manualLog = async () => {
+      try {
+        // Simulate an error
+        const err = new Error('Manual test error with context');
+        await AiLogger.log(err, { testId: 'manual-1', feature: 'test-page' });
+        document.getElementById('status').innerHTML = '<p class="success">Manual log sent successfully!</p>';
+      } catch (e) {
+        document.getElementById('status').innerHTML = '<p class="error">Failed to send log</p>';
+      }
+    };
+  </script>
+</body>
+</html>
