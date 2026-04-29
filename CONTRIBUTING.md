@@ -79,12 +79,26 @@ packages/
 
 ## Development Workflow
 
-### Branching
+### Fork & Branch
 
-1. Create a feature branch from `main`:
+1. **Fork** the repository on GitHub (don't push directly to the main repo).
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/ai-logger.git
+   cd ai-logger
+   ```
+3. Add the upstream remote:
+   ```bash
+   git remote add upstream https://github.com/original-owner/ai-logger.git
+   ```
+4. Create a feature branch:
    ```bash
    git checkout -b feature/your-feature-name
    ```
+
+### Main Branch Protection
+
+The `main` branch is protected. All changes must come through pull requests. Direct pushes are rejected.
 
 2. Make your changes, following the conventions below.
 
